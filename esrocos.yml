@@ -1,0 +1,5 @@
+ASNACN_DIR: dataview/
+PROJECT_NAME: data_logger_components
+deps:
+- tools/data_logger: ''
+- types/base: ''
