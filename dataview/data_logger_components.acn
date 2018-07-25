@@ -1,3 +1,0 @@
-ESROCOS-data-logger-components DEFINITIONS ::= BEGIN
-    MyDummyInteger[]
-END
