@@ -97,11 +97,199 @@ END fake_input.others;
 
 END interfaceview::IV::fake_input;
 
+PACKAGE interfaceview::IV::double_fake_input
+PUBLIC
+
+WITH interfaceview::IV::double_logger;
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_trigger
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_trigger;
+
+SUBPROGRAM IMPLEMENTATION PI_trigger.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_trigger.others;
+
+SUBPROGRAM RI_sample
+FEATURES
+  sample : IN PARAMETER DataView::T_Double {
+    Taste::encoding => NATIVE;
+  };
+END RI_sample;
+
+SUBPROGRAM IMPLEMENTATION RI_sample.others
+END RI_sample.others;
+
+SYSTEM double_fake_input
+FEATURES
+  PI_trigger : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::double_fake_input::PI_trigger.others {
+    Taste::coordinates => "27567 83437";
+    Taste::RCMoperationKind => cyclic;
+    Taste::RCMperiod => 100 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "trigger";
+  };
+  RI_sample : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::double_logger::PI_sample.others {
+    Taste::coordinates => "65985 82286";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "sample";
+    Taste::labelInheritance => "true";
+  };
+PROPERTIES
+  Source_Language => (C);
+  Taste::Active_Interfaces => any;
+END double_fake_input;
+
+SYSTEM IMPLEMENTATION double_fake_input.others
+END double_fake_input.others;
+
+END interfaceview::IV::double_fake_input;
+
+PACKAGE interfaceview::IV::double_logger
+PUBLIC
+
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_sample
+FEATURES
+  sample : IN PARAMETER DataView::T_Double {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_sample;
+
+SUBPROGRAM IMPLEMENTATION PI_sample.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_sample.others;
+
+SYSTEM double_logger
+FEATURES
+  PI_sample : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::double_logger::PI_sample.others {
+    Taste::coordinates => "92769 82285";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "sample";
+  };
+PROPERTIES
+  Source_Language => (CPP);
+  Taste::Active_Interfaces => any;
+  Source_Text => ("double_logger.zip");
+END double_logger;
+
+SYSTEM IMPLEMENTATION double_logger.others
+END double_logger.others;
+
+END interfaceview::IV::double_logger;
+
+PACKAGE interfaceview::IV::rbs_logger
+PUBLIC
+
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_sample
+FEATURES
+  sample : IN PARAMETER DataView::Base_samples_RigidBodyState {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_sample;
+
+SUBPROGRAM IMPLEMENTATION PI_sample.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_sample.others;
+
+SYSTEM rbs_logger
+FEATURES
+  PI_sample : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::rbs_logger::PI_sample.others {
+    Taste::coordinates => "93221 116712";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "sample";
+  };
+PROPERTIES
+  Source_Language => (CPP);
+  Taste::Active_Interfaces => any;
+  Source_Text => ("rbs_logger.zip");
+END rbs_logger;
+
+SYSTEM IMPLEMENTATION rbs_logger.others
+END rbs_logger.others;
+
+END interfaceview::IV::rbs_logger;
+
+PACKAGE interfaceview::IV::rbs_fake_input
+PUBLIC
+
+WITH interfaceview::IV::rbs_logger;
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_trigger
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_trigger;
+
+SUBPROGRAM IMPLEMENTATION PI_trigger.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_trigger.others;
+
+SUBPROGRAM RI_sample
+FEATURES
+  sample : IN PARAMETER DataView::Base_samples_RigidBodyState {
+    Taste::encoding => NATIVE;
+  };
+END RI_sample;
+
+SUBPROGRAM IMPLEMENTATION RI_sample.others
+END RI_sample.others;
+
+SYSTEM rbs_fake_input
+FEATURES
+  PI_trigger : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::rbs_fake_input::PI_trigger.others {
+    Taste::coordinates => "25465 115356";
+    Taste::RCMoperationKind => cyclic;
+    Taste::RCMperiod => 100 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "trigger";
+  };
+  RI_sample : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::rbs_logger::PI_sample.others {
+    Taste::coordinates => "66661 118067";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "sample";
+    Taste::labelInheritance => "true";
+  };
+PROPERTIES
+  Source_Language => (C);
+  Taste::Active_Interfaces => any;
+END rbs_fake_input;
+
+SYSTEM IMPLEMENTATION rbs_fake_input.others
+END rbs_fake_input.others;
+
+END interfaceview::IV::rbs_fake_input;
+
 PACKAGE interfaceview::IV
 PUBLIC
 
 WITH interfaceview::IV::motion_command2d_logger;
 WITH interfaceview::IV::fake_input;
+WITH interfaceview::IV::double_fake_input;
+WITH interfaceview::IV::double_logger;
+WITH interfaceview::IV::rbs_logger;
+WITH interfaceview::IV::rbs_fake_input;
 WITH Taste;
 WITH DataView;
 WITH TASTE_IV_Properties;
@@ -119,9 +307,27 @@ SUBCOMPONENTS
   fake_input : SYSTEM interfaceview::IV::fake_input::fake_input.others {
     Taste::coordinates => "29735 41406 63614 64443";
   };
+  double_fake_input : SYSTEM interfaceview::IV::double_fake_input::double_fake_input.others {
+    Taste::coordinates => "27567 80091 65985 100069";
+  };
+  double_logger : SYSTEM interfaceview::IV::double_logger::double_logger.others {
+    Taste::coordinates => "92769 77895 150286 102044";
+  };
+  rbs_logger : SYSTEM interfaceview::IV::rbs_logger::rbs_logger.others {
+    Taste::coordinates => "93221 111290 150137 137038";
+  };
+  rbs_fake_input : SYSTEM interfaceview::IV::rbs_fake_input::rbs_fake_input.others {
+    Taste::coordinates => "25465 112645 66661 135140";
+  };
 CONNECTIONS
   motion_command2d_logger_PI_sample_fake_input_RI_sample : SUBPROGRAM ACCESS motion_command2d_logger.PI_sample -> fake_input.RI_sample {
     Taste::coordinates => "63614 46826 85431 46826 85431 46822 94240 46822";
+  };
+  double_logger_PI_sample_double_fake_input_RI_sample : SUBPROGRAM ACCESS double_logger.PI_sample -> double_fake_input.RI_sample {
+    Taste::coordinates => "65985 82286 79377 82286 79377 82285 92769 82285";
+  };
+  rbs_logger_PI_sample_rbs_fake_input_RI_sample : SUBPROGRAM ACCESS rbs_logger.PI_sample -> rbs_fake_input.RI_sample {
+    Taste::coordinates => "66661 118067 79941 118067 79941 116712 93221 116712";
   };
 END interfaceview.others;
 

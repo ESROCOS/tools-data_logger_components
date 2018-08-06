@@ -38,6 +38,8 @@ esrocos_add_dependency(PARTITION test_logger
 
 #uncomment if you want to export a function
 esrocos_export_function("motion_command2d_logger" "share/taste_components/data_loggers")
+esrocos_export_function("rbs_logger" "share/taste_components/data_loggers")
+esrocos_export_function("double_logger" "share/taste_components/data_loggers")
 
 #uncomment to export PKG-CONFIG-file
 esrocos_export_pkgconfig( VERSION 1.0

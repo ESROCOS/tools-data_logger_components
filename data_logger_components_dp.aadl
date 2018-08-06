@@ -24,6 +24,10 @@ PUBLIC
 
 WITH interfaceview::IV::motion_command2d_logger;
 WITH interfaceview::IV::fake_input;
+WITH interfaceview::IV::double_fake_input;
+WITH interfaceview::IV::double_logger;
+WITH interfaceview::IV::rbs_logger;
+WITH interfaceview::IV::rbs_fake_input;
 WITH ocarina_processors_x86;
 WITH deploymentview::DV::Node1;
 WITH Taste;
@@ -41,6 +45,18 @@ SUBCOMPONENTS
   IV_fake_input : SYSTEM interfaceview::IV::fake_input::fake_input.others {
     Taste::FunctionName => "fake_input";
   };
+  IV_double_fake_input : SYSTEM interfaceview::IV::double_fake_input::double_fake_input.others {
+    Taste::FunctionName => "double_fake_input";
+  };
+  IV_double_logger : SYSTEM interfaceview::IV::double_logger::double_logger.others {
+    Taste::FunctionName => "double_logger";
+  };
+  IV_rbs_logger : SYSTEM interfaceview::IV::rbs_logger::rbs_logger.others {
+    Taste::FunctionName => "rbs_logger";
+  };
+  IV_rbs_fake_input : SYSTEM interfaceview::IV::rbs_fake_input::rbs_fake_input.others {
+    Taste::FunctionName => "rbs_fake_input";
+  };
   test_logger : PROCESS deploymentview::DV::Node1::test_logger.others {
     Taste::coordinates => "103772 81484 126540 99693";
     Deployment::Port_Number => 0;
@@ -51,6 +67,10 @@ SUBCOMPONENTS
 PROPERTIES
   Taste::APLC_Binding => (reference (test_logger)) APPLIES TO IV_motion_command2d_logger;
   Taste::APLC_Binding => (reference (test_logger)) APPLIES TO IV_fake_input;
+  Taste::APLC_Binding => (reference (test_logger)) APPLIES TO IV_double_fake_input;
+  Taste::APLC_Binding => (reference (test_logger)) APPLIES TO IV_double_logger;
+  Taste::APLC_Binding => (reference (test_logger)) APPLIES TO IV_rbs_logger;
+  Taste::APLC_Binding => (reference (test_logger)) APPLIES TO IV_rbs_fake_input;
   Actual_Processor_Binding => (reference (x86_linux)) APPLIES TO test_logger;
 END Node1.others;
 

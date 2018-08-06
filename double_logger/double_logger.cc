@@ -1,13 +1,13 @@
 /* User code: This file will not be overwritten by TASTE. */
 
-#include "motion_command2d_logger.h"
+#include "double_logger.h"
 #include <data_logger/LogFileWriter.hpp>
 #include <iostream>
 #include <csignal>
 
 using namespace data_logger;
-#define LOGGER_TYPE asn1SccBase_commands_Motion2D
-#define ENCODING_FN asn1SccBase_commands_Motion2D_ACN_Encode
+#define LOGGER_TYPE asn1SccT_Double
+#define ENCODING_FN asn1SccT_Double_ACN_Encode
 #define ENCODING_HINT "ASN.1/ACN"
 #define DATA_MODEL_FILE "binary.c/dataview-uniq.asn"
 #define LOG_FILE "./" __FILE__ ".log"
@@ -43,7 +43,7 @@ void shutdown( int signum ) {
    exit(signum);  
 }
 
-void motion_command2d_logger_startup()
+void double_logger_startup()
 {
     writer.setEncoding(Encode);
     writer.setDataModelFromFile(DATA_MODEL_FILE);
@@ -54,7 +54,7 @@ void motion_command2d_logger_startup()
     signal(SIGINT, shutdown);
 }
 
-void motion_command2d_logger_PI_sample(const asn1SccBase_commands_Motion2D *IN_sample)
+void double_logger_PI_sample(const asn1SccT_Double *IN_sample)
 {
     writer.write(*IN_sample);
 }
