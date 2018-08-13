@@ -44,7 +44,7 @@ esrocos_export_function("double_logger" "share/taste_components/data_loggers")
 #uncomment to export PKG-CONFIG-file
 esrocos_export_pkgconfig( VERSION 1.0
                           DESCRIPTION "none"
-                          REQUIRES "ldata_logger"
+                          REQUIRES "data_logger"
                           LIBS ""
                           STATIC_LIBS "" 
                           C_FLAGS ""
