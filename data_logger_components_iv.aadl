@@ -25,6 +25,14 @@ PROPERTIES
   Compute_Execution_Time => 0 ms .. 0 ms;
 END PI_sample.others;
 
+SUBPROGRAM PI_shutdown
+END PI_shutdown;
+
+SUBPROGRAM IMPLEMENTATION PI_shutdown.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_shutdown.others;
+
 SYSTEM motion_command2d_logger
 FEATURES
   PI_sample : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::motion_command2d_logger::PI_sample.others {
@@ -34,10 +42,15 @@ FEATURES
     Taste::Deadline => 0 ms;
     Taste::InterfaceName => "sample";
   };
+  PI_shutdown : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::motion_command2d_logger::PI_shutdown.others {
+    Taste::coordinates => "94240 60614";
+    Taste::RCMoperationKind => protected;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "shutdown";
+  };
 PROPERTIES
   Source_Language => (CPP);
   Taste::Active_Interfaces => any;
-  Source_Text => ("motion_command2d_logger.zip");
 END motion_command2d_logger;
 
 SYSTEM IMPLEMENTATION motion_command2d_logger.others
@@ -169,6 +182,14 @@ PROPERTIES
   Compute_Execution_Time => 0 ms .. 0 ms;
 END PI_sample.others;
 
+SUBPROGRAM PI_shutdown
+END PI_shutdown;
+
+SUBPROGRAM IMPLEMENTATION PI_shutdown.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_shutdown.others;
+
 SYSTEM double_logger
 FEATURES
   PI_sample : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::double_logger::PI_sample.others {
@@ -178,10 +199,15 @@ FEATURES
     Taste::Deadline => 0 ms;
     Taste::InterfaceName => "sample";
   };
+  PI_shutdown : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::double_logger::PI_shutdown.others {
+    Taste::coordinates => "92769 94692";
+    Taste::RCMoperationKind => protected;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "shutdown";
+  };
 PROPERTIES
   Source_Language => (CPP);
   Taste::Active_Interfaces => any;
-  Source_Text => ("double_logger.zip");
 END double_logger;
 
 SYSTEM IMPLEMENTATION double_logger.others
@@ -209,6 +235,14 @@ PROPERTIES
   Compute_Execution_Time => 0 ms .. 0 ms;
 END PI_sample.others;
 
+SUBPROGRAM PI_shutdown
+END PI_shutdown;
+
+SUBPROGRAM IMPLEMENTATION PI_shutdown.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_shutdown.others;
+
 SYSTEM rbs_logger
 FEATURES
   PI_sample : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::rbs_logger::PI_sample.others {
@@ -218,10 +252,15 @@ FEATURES
     Taste::Deadline => 0 ms;
     Taste::InterfaceName => "sample";
   };
+  PI_shutdown : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::rbs_logger::PI_shutdown.others {
+    Taste::coordinates => "93221 128087";
+    Taste::RCMoperationKind => protected;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "shutdown";
+  };
 PROPERTIES
   Source_Language => (CPP);
   Taste::Active_Interfaces => any;
-  Source_Text => ("rbs_logger.zip");
 END rbs_logger;
 
 SYSTEM IMPLEMENTATION rbs_logger.others
@@ -281,6 +320,80 @@ END rbs_fake_input.others;
 
 END interfaceview::IV::rbs_fake_input;
 
+PACKAGE interfaceview::IV::signal_handler
+PUBLIC
+
+WITH interfaceview::IV::rbs_logger;
+WITH interfaceview::IV::motion_command2d_logger;
+WITH interfaceview::IV::double_logger;
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_trigger
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_trigger;
+
+SUBPROGRAM IMPLEMENTATION PI_trigger.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_trigger.others;
+
+SUBPROGRAM RI_sigint
+END RI_sigint;
+
+SUBPROGRAM IMPLEMENTATION RI_sigint.others
+END RI_sigint.others;
+
+SUBPROGRAM RI_sigint2
+END RI_sigint2;
+
+SUBPROGRAM IMPLEMENTATION RI_sigint2.others
+END RI_sigint2.others;
+
+SUBPROGRAM RI_sigint1
+END RI_sigint1;
+
+SUBPROGRAM IMPLEMENTATION RI_sigint1.others
+END RI_sigint1.others;
+
+SYSTEM signal_handler
+FEATURES
+  PI_trigger : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::signal_handler::PI_trigger.others {
+    Taste::coordinates => "54326 144754";
+    Taste::RCMoperationKind => cyclic;
+    Taste::RCMperiod => 1000 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "trigger";
+  };
+  RI_sigint : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::rbs_logger::PI_shutdown.others {
+    Taste::coordinates => "85170 150862";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "sigint";
+    Taste::labelInheritance => "false";
+  };
+  RI_sigint2 : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::motion_command2d_logger::PI_shutdown.others {
+    Taste::coordinates => "85170 162773";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "sigint2";
+    Taste::labelInheritance => "false";
+  };
+  RI_sigint1 : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::double_logger::PI_shutdown.others {
+    Taste::coordinates => "85170 156970";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "sigint1";
+    Taste::labelInheritance => "false";
+  };
+PROPERTIES
+  Source_Language => (CPP);
+  Taste::Active_Interfaces => any;
+END signal_handler;
+
+SYSTEM IMPLEMENTATION signal_handler.others
+END signal_handler.others;
+
+END interfaceview::IV::signal_handler;
+
 PACKAGE interfaceview::IV
 PUBLIC
 
@@ -290,6 +403,7 @@ WITH interfaceview::IV::double_fake_input;
 WITH interfaceview::IV::double_logger;
 WITH interfaceview::IV::rbs_logger;
 WITH interfaceview::IV::rbs_fake_input;
+WITH interfaceview::IV::signal_handler;
 WITH Taste;
 WITH DataView;
 WITH TASTE_IV_Properties;
@@ -319,15 +433,27 @@ SUBCOMPONENTS
   rbs_fake_input : SYSTEM interfaceview::IV::rbs_fake_input::rbs_fake_input.others {
     Taste::coordinates => "25465 112645 66661 135140";
   };
+  signal_handler : SYSTEM interfaceview::IV::signal_handler::signal_handler.others {
+    Taste::coordinates => "45164 144754 85170 170406";
+  };
 CONNECTIONS
   motion_command2d_logger_PI_sample_fake_input_RI_sample : SUBPROGRAM ACCESS motion_command2d_logger.PI_sample -> fake_input.RI_sample {
     Taste::coordinates => "63614 46826 85431 46826 85431 46822 94240 46822";
   };
+  motion_command2d_logger_PI_shutdown_signal_handler_RI_sigint2 : SUBPROGRAM ACCESS motion_command2d_logger.PI_shutdown -> signal_handler.RI_sigint2 {
+    Taste::coordinates => "85170 162773 89705 162773 89705 60614 94240 60614";
+  };
   double_logger_PI_sample_double_fake_input_RI_sample : SUBPROGRAM ACCESS double_logger.PI_sample -> double_fake_input.RI_sample {
     Taste::coordinates => "65985 82286 79377 82286 79377 82285 92769 82285";
   };
+  double_logger_PI_shutdown_signal_handler_RI_sigint1 : SUBPROGRAM ACCESS double_logger.PI_shutdown -> signal_handler.RI_sigint1 {
+    Taste::coordinates => "85170 156970 88969 156970 88969 94692 92769 94692";
+  };
   rbs_logger_PI_sample_rbs_fake_input_RI_sample : SUBPROGRAM ACCESS rbs_logger.PI_sample -> rbs_fake_input.RI_sample {
     Taste::coordinates => "66661 118067 79941 118067 79941 116712 93221 116712";
+  };
+  rbs_logger_PI_shutdown_signal_handler_RI_sigint : SUBPROGRAM ACCESS rbs_logger.PI_shutdown -> signal_handler.RI_sigint {
+    Taste::coordinates => "85170 150862 99969 150862 99969 141154 86973 141154 86973 128087 93221 128087";
   };
 END interfaceview.others;
 

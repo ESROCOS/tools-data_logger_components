@@ -28,6 +28,7 @@ WITH interfaceview::IV::double_fake_input;
 WITH interfaceview::IV::double_logger;
 WITH interfaceview::IV::rbs_logger;
 WITH interfaceview::IV::rbs_fake_input;
+WITH interfaceview::IV::signal_handler;
 WITH ocarina_processors_x86;
 WITH deploymentview::DV::Node1;
 WITH Taste;
@@ -57,6 +58,9 @@ SUBCOMPONENTS
   IV_rbs_fake_input : SYSTEM interfaceview::IV::rbs_fake_input::rbs_fake_input.others {
     Taste::FunctionName => "rbs_fake_input";
   };
+  IV_signal_handler : SYSTEM interfaceview::IV::signal_handler::signal_handler.others {
+    Taste::FunctionName => "signal_handler";
+  };
   test_logger : PROCESS deploymentview::DV::Node1::test_logger.others {
     Taste::coordinates => "103772 81484 126540 99693";
     Deployment::Port_Number => 0;
@@ -71,6 +75,7 @@ PROPERTIES
   Taste::APLC_Binding => (reference (test_logger)) APPLIES TO IV_double_logger;
   Taste::APLC_Binding => (reference (test_logger)) APPLIES TO IV_rbs_logger;
   Taste::APLC_Binding => (reference (test_logger)) APPLIES TO IV_rbs_fake_input;
+  Taste::APLC_Binding => (reference (test_logger)) APPLIES TO IV_signal_handler;
   Actual_Processor_Binding => (reference (x86_linux)) APPLIES TO test_logger;
 END Node1.others;
 

@@ -33,16 +33,6 @@ size_t Encode(BufferByte *pBuffer,
 
 LogFileWriter<LOGGER_TYPE> writer(LOG_FILE);
 
-void shutdown( int signum ) {
-   std::cout << "Interrupt signal (" << signum << ") received.\n"<<std::endl;
-
-   // cleanup and close up stuff here  
-   // terminate program  
-   writer.close();
-
-   exit(signum);  
-}
-
 void motion_command2d_logger_startup()
 {
     writer.setEncoding(Encode);
@@ -50,8 +40,10 @@ void motion_command2d_logger_startup()
     writer.setEncodingHint(ENCODING_HINT);
     std::cout << "logging to " << LOG_FILE << std::endl;;
     writer.start();
-    //Register signal handler for SIGINT to close log file
-    signal(SIGINT, shutdown);
+}
+
+void motion_command2d_logger_PI_shutdown(){
+    writer.close();
 }
 
 void motion_command2d_logger_PI_sample(const asn1SccBase_commands_Motion2D *IN_sample)

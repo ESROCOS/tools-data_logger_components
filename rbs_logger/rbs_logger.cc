@@ -33,25 +33,21 @@ size_t Encode(BufferByte *pBuffer,
 
 LogFileWriter<LOGGER_TYPE> writer(LOG_FILE);
 
-void shutdown( int signum ) {
-   std::cout << "Interrupt signal (" << signum << ") received.\n"<<std::endl;
-
-   // cleanup and close up stuff here  
-   // terminate program  
-   writer.close();
-
-   exit(signum);  
-}
-
-
 void rbs_logger_startup()
 {
-    /* Write your initialization code here,
-       but do not make any call to a required interface. */
+    writer.setEncoding(Encode);
+    writer.setDataModelFromFile(DATA_MODEL_FILE);
+    writer.setEncodingHint(ENCODING_HINT);
+    std::cout << "logging to " << LOG_FILE << std::endl;
+    writer.start();
 }
 
 void rbs_logger_PI_sample(const asn1SccBase_samples_RigidBodyState *IN_sample)
 {
-    /* Write your code here! */
+    writer.write(*IN_sample);
 }
 
+void rbs_logger_PI_shutdown()
+{
+    writer.close();
+}

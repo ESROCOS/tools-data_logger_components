@@ -15,6 +15,8 @@ void motion_command2d_logger_startup();
 
 void motion_command2d_logger_PI_sample(const asn1SccBase_commands_Motion2D *);
 
+void motion_command2d_logger_PI_shutdown();
+
 #ifdef __cplusplus
 }
 #endif

@@ -15,6 +15,8 @@ void double_logger_startup();
 
 void double_logger_PI_sample(const asn1SccT_Double *);
 
+void double_logger_PI_shutdown();
+
 #ifdef __cplusplus
 }
 #endif

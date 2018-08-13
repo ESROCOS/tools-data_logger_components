@@ -33,15 +33,6 @@ size_t Encode(BufferByte *pBuffer,
 
 LogFileWriter<LOGGER_TYPE> writer(LOG_FILE);
 
-void shutdown( int signum ) {
-   std::cout << "Interrupt signal (" << signum << ") received.\n"<<std::endl;
-
-   // cleanup and close up stuff here  
-   // terminate program  
-   writer.close();
-
-   exit(signum);  
-}
 
 void double_logger_startup()
 {
@@ -50,8 +41,10 @@ void double_logger_startup()
     writer.setEncodingHint(ENCODING_HINT);
     std::cout << "logging to " << LOG_FILE << std::endl;;
     writer.start();
-    //Register signal handler for SIGINT to close log file
-    signal(SIGINT, shutdown);
+}
+
+void double_logger_PI_shutdown(){
+    writer.close();
 }
 
 void double_logger_PI_sample(const asn1SccT_Double *IN_sample)

@@ -15,6 +15,8 @@ void rbs_logger_startup();
 
 void rbs_logger_PI_sample(const asn1SccBase_samples_RigidBodyState *);
 
+void rbs_logger_PI_shutdown();
+
 #ifdef __cplusplus
 }
 #endif
