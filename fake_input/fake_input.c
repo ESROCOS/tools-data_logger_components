@@ -10,6 +10,8 @@ void fake_input_startup()
 
 void fake_input_PI_trigger()
 {
-    /* Write your code here! */
+    asn1SccBase_commands_Motion2D val;
+    asn1SccBase_commands_Motion2D_Initialize(&val);
+    fake_input_RI_sample(&val);
 }
 

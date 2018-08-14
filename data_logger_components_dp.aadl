@@ -19,6 +19,20 @@ END test_logger.others;
 
 END deploymentview::DV::Node1;
 
+PACKAGE deploymentview::DV::Node2
+PUBLIC
+
+WITH Taste;
+WITH Deployment;
+WITH TASTE_DV_Properties;
+PROCESS test_replay
+END test_replay;
+
+PROCESS IMPLEMENTATION test_replay.others
+END test_replay.others;
+
+END deploymentview::DV::Node2;
+
 PACKAGE deploymentview::DV
 PUBLIC
 
@@ -31,6 +45,13 @@ WITH interfaceview::IV::rbs_fake_input;
 WITH interfaceview::IV::signal_handler;
 WITH ocarina_processors_x86;
 WITH deploymentview::DV::Node1;
+WITH interfaceview::IV::motion_command2d_replay;
+WITH interfaceview::IV::double_replay;
+WITH interfaceview::IV::rbs_replay;
+WITH interfaceview::IV::fake_motion_command2d_consumer;
+WITH interfaceview::IV::fake_double_consumer;
+WITH interfaceview::IV::fake_rbs_consumer;
+WITH deploymentview::DV::Node2;
 WITH Taste;
 WITH Deployment;
 WITH interfaceview::IV;
@@ -79,6 +100,46 @@ PROPERTIES
   Actual_Processor_Binding => (reference (x86_linux)) APPLIES TO test_logger;
 END Node1.others;
 
+SYSTEM Node2
+END Node2;
+
+SYSTEM IMPLEMENTATION Node2.others
+SUBCOMPONENTS
+  IV_motion_command2d_replay : SYSTEM interfaceview::IV::motion_command2d_replay::motion_command2d_replay.others {
+    Taste::FunctionName => "motion_command2d_replay";
+  };
+  IV_double_replay : SYSTEM interfaceview::IV::double_replay::double_replay.others {
+    Taste::FunctionName => "double_replay";
+  };
+  IV_rbs_replay : SYSTEM interfaceview::IV::rbs_replay::rbs_replay.others {
+    Taste::FunctionName => "rbs_replay";
+  };
+  IV_fake_motion_command2d_consumer : SYSTEM interfaceview::IV::fake_motion_command2d_consumer::fake_motion_command2d_consumer.others {
+    Taste::FunctionName => "fake_motion_command2d_consumer";
+  };
+  IV_fake_double_consumer : SYSTEM interfaceview::IV::fake_double_consumer::fake_double_consumer.others {
+    Taste::FunctionName => "fake_double_consumer";
+  };
+  IV_fake_rbs_consumer : SYSTEM interfaceview::IV::fake_rbs_consumer::fake_rbs_consumer.others {
+    Taste::FunctionName => "fake_rbs_consumer";
+  };
+  test_replay : PROCESS deploymentview::DV::Node2::test_replay.others {
+    Taste::coordinates => "154190 80719 176730 100918";
+    Deployment::Port_Number => 0;
+  };
+  x86_linux : PROCESSOR ocarina_processors_x86::x86.linux {
+    Taste::coordinates => "151373 74948 179547 103804";
+  };
+PROPERTIES
+  Taste::APLC_Binding => (reference (test_replay)) APPLIES TO IV_motion_command2d_replay;
+  Taste::APLC_Binding => (reference (test_replay)) APPLIES TO IV_double_replay;
+  Taste::APLC_Binding => (reference (test_replay)) APPLIES TO IV_rbs_replay;
+  Taste::APLC_Binding => (reference (test_replay)) APPLIES TO IV_fake_motion_command2d_consumer;
+  Taste::APLC_Binding => (reference (test_replay)) APPLIES TO IV_fake_double_consumer;
+  Taste::APLC_Binding => (reference (test_replay)) APPLIES TO IV_fake_rbs_consumer;
+  Actual_Processor_Binding => (reference (x86_linux)) APPLIES TO test_replay;
+END Node2.others;
+
 SYSTEM deploymentview
 END deploymentview;
 
@@ -86,6 +147,9 @@ SYSTEM IMPLEMENTATION deploymentview.others
 SUBCOMPONENTS
   Node1 : SYSTEM Node1.others {
     Taste::coordinates => "97368 68849 132944 106010";
+  };
+  Node2 : SYSTEM Node2.others {
+    Taste::coordinates => "147851 66703 183069 107926";
   };
   interfaceview : SYSTEM interfaceview::IV::interfaceview.others;
 END deploymentview.others;

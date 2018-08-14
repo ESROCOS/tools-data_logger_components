@@ -79,6 +79,18 @@ cd "$SKELS" && rm -f rbs_fake_input.zip && zip rbs_fake_input rbs_fake_input/* &
 
 cd "$SKELS" && rm -f signal_handler.zip && zip signal_handler signal_handler/* && cd $OLDPWD
 
+cd "$SKELS" && rm -f motion_command2d_replay.zip && zip motion_command2d_replay motion_command2d_replay/* && cd $OLDPWD
+
+cd "$SKELS" && rm -f double_replay.zip && zip double_replay double_replay/* && cd $OLDPWD
+
+cd "$SKELS" && rm -f rbs_replay.zip && zip rbs_replay rbs_replay/* && cd $OLDPWD
+
+cd "$SKELS" && rm -f fake_motion_command2d_consumer.zip && zip fake_motion_command2d_consumer fake_motion_command2d_consumer/* && cd $OLDPWD
+
+cd "$SKELS" && rm -f fake_double_consumer.zip && zip fake_double_consumer fake_double_consumer/* && cd $OLDPWD
+
+cd "$SKELS" && rm -f fake_rbs_consumer.zip && zip fake_rbs_consumer fake_rbs_consumer/* && cd $OLDPWD
+
 [ ! -z "$CLEANUP" ] && rm -rf binary*
 
 if [ -f ConcurrencyView.pro ]
@@ -126,6 +138,12 @@ cd "$CWD" && assert-builder-ocarina.py \
 	--subCPP rbs_logger:"$SKELS"/rbs_logger.zip \
 	--subC rbs_fake_input:"$SKELS"/rbs_fake_input.zip \
 	--subCPP signal_handler:"$SKELS"/signal_handler.zip \
+	--subCPP motion_command2d_replay:"$SKELS"/motion_command2d_replay.zip \
+	--subCPP double_replay:"$SKELS"/double_replay.zip \
+	--subCPP rbs_replay:"$SKELS"/rbs_replay.zip \
+	--subCPP fake_motion_command2d_consumer:"$SKELS"/fake_motion_command2d_consumer.zip \
+	--subCPP fake_double_consumer:"$SKELS"/fake_double_consumer.zip \
+	--subCPP fake_rbs_consumer:"$SKELS"/fake_rbs_consumer.zip \
 	$ORCHESTRATOR_OPTIONS
 
 if [ -f user_init_last.sh ]

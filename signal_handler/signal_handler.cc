@@ -11,7 +11,7 @@ void handle_signal( int signum )
 	signal_handler_RI_sigint();
 	signal_handler_RI_sigint1();
 	signal_handler_RI_sigint2();
-	sleep(10);
+	sleep(1);
 	std::cout << "Terminating..."<<std::endl;
 	exit(0);
 }

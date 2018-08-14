@@ -1,16 +1,15 @@
 /* User code: This file will not be overwritten by TASTE. */
 
-#include "double_fake_input.h"
+#include "fake_double_consumer.h"
 
-void double_fake_input_startup()
+void fake_double_consumer_startup()
 {
     /* Write your initialization code here,
        but do not make any call to a required interface. */
 }
 
-void double_fake_input_PI_trigger()
+void fake_double_consumer_PI_sample(const asn1SccT_Double *IN_sample)
 {
-    asn1SccT_Double val = 0.0;
-    double_fake_input_RI_sample(&val);
+    /* Write your code here! */
 }
 

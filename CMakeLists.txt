@@ -33,6 +33,8 @@ esrocos_init()
 #uncomment if you want to add dependencies for the build process (only required in integration projects)
 esrocos_add_dependency(PARTITION test_logger
                        MODULES   data_logger)
+esrocos_add_dependency(PARTITION test_replay
+                       MODULES   data_logger)
 
 ########### FOR COMPONENT PROJECTS ################
 
@@ -40,6 +42,7 @@ esrocos_add_dependency(PARTITION test_logger
 esrocos_export_function("motion_command2d_logger" "share/taste_components/data_loggers")
 esrocos_export_function("rbs_logger" "share/taste_components/data_loggers")
 esrocos_export_function("double_logger" "share/taste_components/data_loggers")
+esrocos_export_function("motion_command2d_replay" "share/taste_components/data_loggers")
 
 #uncomment to export PKG-CONFIG-file
 esrocos_export_pkgconfig( VERSION 1.0
