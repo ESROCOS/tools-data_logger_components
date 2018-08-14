@@ -7,6 +7,7 @@
 
 using namespace data_logger;
 #define LOGGER_TYPE asn1SccBase_samples_RigidBodyState
+#define DATA_TYPE "asn1SccBase_samples_RigidBodyState"
 #define ENCODING_FN asn1SccBase_samples_RigidBodyState_ACN_Encode
 #define ENCODING_HINT "ASN.1/ACN"
 #define DATA_MODEL_FILE "binary.c/dataview-uniq.asn"
@@ -36,7 +37,7 @@ LogFileWriter<LOGGER_TYPE> writer(LOG_FILE);
 void rbs_logger_startup()
 {
     writer.setEncoding(Encode);
-    writer.setDataModelFromFile(DATA_MODEL_FILE);
+    writer.setDataModelFromFile(DATA_MODEL_FILE, std::string()+DATA_TYPE);
     writer.setEncodingHint(ENCODING_HINT);
     std::cout << "logging to " << LOG_FILE << std::endl;
     writer.start();
