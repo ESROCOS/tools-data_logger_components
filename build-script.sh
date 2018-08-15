@@ -71,10 +71,6 @@ cd "$SKELS" && rm -f fake_input.zip && zip fake_input fake_input/* && cd $OLDPWD
 
 cd "$SKELS" && rm -f double_fake_input.zip && zip double_fake_input double_fake_input/* && cd $OLDPWD
 
-cd "$SKELS" && rm -f double_logger.zip && zip double_logger double_logger/* && cd $OLDPWD
-
-cd "$SKELS" && rm -f rbs_logger.zip && zip rbs_logger rbs_logger/* && cd $OLDPWD
-
 cd "$SKELS" && rm -f rbs_fake_input.zip && zip rbs_fake_input rbs_fake_input/* && cd $OLDPWD
 
 cd "$SKELS" && rm -f signal_handler.zip && zip signal_handler signal_handler/* && cd $OLDPWD
@@ -132,8 +128,8 @@ cd "$CWD" && assert-builder-ocarina.py \
 	--subCPP motion_command2d_logger:"$SKELS"/motion_command2d_logger.zip \
 	--subC fake_input:"$SKELS"/fake_input.zip \
 	--subC double_fake_input:"$SKELS"/double_fake_input.zip \
-	--subCPP double_logger:"$SKELS"/double_logger.zip \
-	--subCPP rbs_logger:"$SKELS"/rbs_logger.zip \
+	--subCPP double_logger:double_logger.zip \
+	--subCPP rbs_logger:rbs_logger.zip \
 	--subC rbs_fake_input:"$SKELS"/rbs_fake_input.zip \
 	--subCPP signal_handler:"$SKELS"/signal_handler.zip \
 	--subCPP motion_command2d_replay:motion_command2d_replay.zip \

@@ -43,6 +43,8 @@ esrocos_export_function("motion_command2d_logger" "share/taste_components/data_l
 esrocos_export_function("rbs_logger" "share/taste_components/data_loggers")
 esrocos_export_function("double_logger" "share/taste_components/data_loggers")
 esrocos_export_function("motion_command2d_replay" "share/taste_components/data_loggers")
+esrocos_export_function("rbs_replay" "share/taste_components/data_loggers")
+esrocos_export_function("double_replay" "share/taste_components/data_loggers")
 
 #uncomment to export PKG-CONFIG-file
 esrocos_export_pkgconfig( VERSION 1.0

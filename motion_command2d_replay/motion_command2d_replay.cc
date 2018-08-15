@@ -35,7 +35,7 @@ void motion_command2d_replay_startup()
 {
     reader.setDecoding(Decode);
     sth = reader.readStreamHeader();
-    std::cout << "Data Model: " << sth.dataModel<<"\nData MetaModel: " << sth.dataMetaModel
+    std::cout << "\nData MetaModel: " << sth.dataMetaModel
               << "\nEncoding Hint: "<<sth.encodingHint<<"\n# Samples: "<<sth.nSamples<<std::endl;
 }
 
@@ -46,13 +46,14 @@ void motion_command2d_replay_PI_trigger()
     size_t idx = reader.readNextSample(s);
     if(idx == -1){
         std::cout << "\nNo more samples"<<std::endl;
-        reader.close();
+        reader.closeLogfile();
         std::cout << "Closed"<<std::endl;
-        exit(0);
+        return;
     }
-    std::cout <<"\n"<< idx+1 << "/" << sth.nSamples<<" samples read"<<std::endl;
+    if((idx+1)%100 == 0){
+        std::cout <<"\n"<< idx+1 << "/" << sth.nSamples<<" samples read"<<std::endl;
+    }
     sample_r = s.getPayload();
-    std::cout << "Timestamp: "<<s.header.writeTimeStamp.toString()<<std::endl;
 
     motion_command2d_replay_RI_sample(&sample_r);
 }
